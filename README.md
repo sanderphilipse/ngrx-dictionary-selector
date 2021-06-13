@@ -82,9 +82,13 @@ This createSelectorWithProps behaves the way I would intuitively expect it to:
 2. You can safely chain it with other selectors
 3. The prop value does not get invisibly passed down to every other selector
 
-This means that element$ and element2$ can exist simultaneously without breaking each other's memoization. If something changes to one of these elements, only the affected observable will see its selector recomputed. Perfect!
+This means that element$ and element2$ can exist simultaneously without breaking each other's memoization. If one of these elements changes, only the affected observable will see its selector recomputed. Perfect!
 ## Downside
 
 There's one big downside: because we're relying on a function to return a selector, all of the downstream child selector will no longer have access to its props. This makes it harder to chain these selectors, but it does force you to actually think about your caching and property access in each of your selector. There's a decent chance you were accidentally getting it wrong before.
 
 There's also a minor increase of your application's memory footprint. Unless you're storing giant objects in your state, though, that shouldn't be a massive problem. If it is, you could think of implementing [an LRU caching strategy](https://en.wikipedia.org/wiki/Cache_replacement_policies#LRU) instead.
+
+## Source
+
+If you're interested in the source code, including some unit tests to validate that it actually works, you can find it [on my GitHub page](https://github.com/sanderphilipse/ngrx-dictionary-selector).
